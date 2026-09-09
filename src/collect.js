@@ -1,4 +1,4 @@
-import { SOURCES, FILTERS, HEALTH } from './config.js';
+import { SOURCES, FILTERS, HEALTH, NOTIFY_RULES } from './config.js';
 import { log } from './lib/logger.js';
 import { withRetry } from './lib/retry.js';
 import { closeBrowser } from './lib/browser.js';
@@ -66,8 +66,10 @@ async function main() {
 
   await closeBrowser();
 
+  const today = new Date().toISOString().slice(0, 10);
   const interesting = all.filter(matchesInterest);
   const state = loadState();
+  const hadState = Object.keys(state.items).length > 0;
   const { newRaces, opened } = reconcile(interesting, state);
 
   // 어느 소스가 몇 건 들어와 몇 건 살아남았는지 — 필터를 튜닝하려면 이게 보여야 한다
@@ -80,16 +82,35 @@ async function main() {
     통과소스별: countBy(interesting),
     신규대회: newRaces.length,
     접수열림: opened.length,
+    첫실행: !hadState,
     소요초: Math.round((Date.now() - started) / 1000),
   });
 
+  // 첫 실행은 전부가 '신규'다. 그대로 알리면 수백 건 폭탄이 되므로
+  // 상태만 저장하고 알림은 건너뛴다. 다음 실행부터가 진짜 변화다.
+  const isFirstRun = !hadState;
+  const worthNotifying = (r) => {
+    if (NOTIFY_RULES.skipPastRaces && r.date && r.date < today) return false;
+    if (NOTIFY_RULES.skipClosedRaces && r.status === '접수마감') return false;
+    return true;
+  };
+  const newToNotify = newRaces.filter(worthNotifying);
+
   if (DRY_RUN) {
-    console.log(JSON.stringify({ newRaces: newRaces.slice(0, 20), opened }, null, 2));
+    console.log(
+      JSON.stringify(
+        { isFirstRun, 알림대상신규: newToNotify.slice(0, 20), 접수열림: opened },
+        null,
+        2,
+      ),
+    );
     return;
   }
 
-  if (newRaces.length || opened.length) {
-    await notifyEvents({ newRaces, opened });
+  if (isFirstRun) {
+    log.info('초기 수집 — 상태만 저장하고 알림은 건너뜀', { saved: newRaces.length });
+  } else if (newToNotify.length || opened.length) {
+    await notifyEvents({ newRaces: newToNotify, opened });
   }
   saveState(state);
 

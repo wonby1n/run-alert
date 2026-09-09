@@ -49,7 +49,7 @@ export function parseRow(rawText, href) {
       .replace(DATE_RE, '')
       .replace(/\([월화수목금토일]\)/, '')
       .replace(DISTANCE_RE, '')
-      .replace(/\b걷기(\(.*?\))?/g, '')
+      .replace(/걷기\s*(\([^)]*\))?/g, '')
       .replace(region ? new RegExp(`${region}\\s*$`) : /$^/, '')
       .replace(/\s+/g, ' ')
       .trim() || head;

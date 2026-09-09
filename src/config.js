@@ -95,6 +95,18 @@ export const NOTIFY = {
   notifyOnFailure: true,
 };
 
+/**
+ * 무엇을 알릴지에 대한 규칙.
+ * 수집은 넓게 하고 알림은 좁게 한다 — 화면에서는 전체를 볼 수 있어야 하지만,
+ * 알림이 시끄러우면 사람이 안 보게 되고 그 순간 자동화는 죽은 것이다.
+ */
+export const NOTIFY_RULES = {
+  // 이미 지난 대회는 알리지 않는다
+  skipPastRaces: true,
+  // 이미 접수가 끝난 대회를 '신규'로 알리지 않는다 (할 수 있는 게 없다)
+  skipClosedRaces: true,
+};
+
 export const PATHS = {
   state: 'data/state.json',
   log: 'data/run.log',
