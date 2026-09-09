@@ -46,7 +46,7 @@ jobs:
       # 실패해도 로그는 남긴다
       - name: 로그 업로드
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: run-log
           path: data/run.log
