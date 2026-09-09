@@ -267,8 +267,8 @@ src/
     logger.js          JSON 구조화 로그
   sources/
     marathongo.js      Playwright  (구현 완료)
-    rankingmarathon.js Playwright  (셀렉터 확정 필요)
-    runneron.js        Playwright  (셀렉터 확정 필요)
+    rankingmarathon.js Playwright  (셀렉터 미확정 — enabled: false)
+    runneron.js        Playwright  (셀렉터 미확정 — enabled: false)
     snkrs.js           Playwright  (보류 — enabled: false)
     hypebeast.js       RSS         (보류 — enabled: false)
 tools/
@@ -294,7 +294,9 @@ docs/PORTING.md        포팅 매뉴얼
 
 ## 6. 알려진 한계
 
-- `rankingmarathon`, `runneron`은 셀렉터가 아직 추정값이다 (`npm run probe`로 확정 필요)
+- `rankingmarathon`, `runneron`은 셀렉터가 아직 추정값이라 `enabled: false`로 꺼둔 상태다.
+  미구현 소스를 켜두면 매일 CI가 빨갛게 뜨고, 그러면 진짜 고장을 알아채지 못한다 —
+  알림 피로와 같은 이유다. `npm run probe`로 확정한 뒤 켠다
 - 상태 표기가 사이트마다 다르다 (`접수중` / `접수 중` / `신청중`).
   `config.js`의 `OPEN_STATUS` 정규식으로 흡수하며, 새 표기가 나오면 추가해야 한다
 - 대회 연도는 `| 2026 접수마감` 표기에서 읽는다. 표기가 없으면 현재 연도로 가정한다

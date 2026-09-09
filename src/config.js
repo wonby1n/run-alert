@@ -38,16 +38,18 @@ export const SOURCES = [
     kind: 'browser',
     label: '랭킹마라톤 대회 일정',
     url: 'https://rankingmarathon.com/',
-    enabled: true,
-    note: 'robots.txt: Allow: / , Disallow: /api/ → 공개 페이지만 사용 (2026-09 확인)',
+    enabled: false,
+    note: 'robots.txt: Allow: / , Disallow: /api/ → 공개 페이지만 사용 (2026-09 확인). '
+      + '셀렉터 미확정이라 비활성 — probe로 확정한 뒤 켤 것',
   },
   {
     id: 'runneron',
     kind: 'browser',
     label: '러너온 마라톤 대회 캘린더',
     url: 'https://www.runneron.com/Marathon',
-    enabled: true,
-    note: 'robots.txt: /Marathon 명시적 Allow. /api/ 와 /marathon/ics 는 Disallow → 건드리지 않음 (2026-09 확인)',
+    enabled: false,
+    note: 'robots.txt: /Marathon 명시적 Allow. /api/ 와 /marathon/ics 는 Disallow → 건드리지 않음 (2026-09 확인). '
+      + '셀렉터 미확정이라 비활성 — probe로 확정한 뒤 켤 것',
   },
 
   // --- 아래는 이 프로젝트의 목적(마라톤 일정)에 해당하지 않아 꺼둔다 ---
