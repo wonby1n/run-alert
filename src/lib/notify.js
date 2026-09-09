@@ -23,13 +23,27 @@ const line = (r) =>
   `${r.link ? `\n  ${r.link}` : ''}`;
 
 /**
- * 접수 오픈을 신규 대회보다 먼저 보여준다.
- * 선착순 마감 때문에 사용자가 당장 움직여야 하는 건 이쪽이다.
+ * 알림 순서 = 급한 순서.
+ *   1) 접수 마감 임박  — 지금 안 하면 못 나간다
+ *   2) 접수 열림       — 오늘 신청할 수 있다
+ *   3) 새로 올라온 대회 — 알아두면 되는 정보
+ *
+ * 셋 다 없으면 아무것도 보내지 않는다. 매일 "새 소식 없음"이 오면
+ * 사람이 알림을 무시하기 시작하고, 그러면 정작 중요한 날에도 안 본다.
  */
-export async function notifyEvents({ newRaces = [], opened = [] }) {
-  if (!newRaces.length && !opened.length) return;
+export async function notifyEvents({ newRaces = [], opened = [], reminders = [] }) {
+  if (!newRaces.length && !opened.length && !reminders.length) return;
 
   const lines = [];
+
+  // 마감 임박이 맨 위다. 아침에 폰을 보는 3초 안에 "지금 해야 할 것"이 보여야 한다.
+  if (reminders.length) {
+    lines.push('**⏳ 접수 마감 임박**');
+    for (const r of reminders.slice(0, 10)) {
+      lines.push(line(r) + ` · **D-${r.dday}**`);
+    }
+    lines.push('');
+  }
 
   if (opened.length) {
     lines.push('**🔔 접수 열림**');
@@ -44,8 +58,8 @@ export async function notifyEvents({ newRaces = [], opened = [] }) {
     }
   }
 
-  const total = newRaces.length + opened.length;
-  if (total > 30) lines.push('', `…외 ${total - 30}건`);
+  const total = reminders.length + newRaces.length + opened.length;
+  if (total > 35) lines.push('', `…외 ${total - 35}건`);
 
   await post({ content: lines.join('\n').slice(0, 1900) });
 }

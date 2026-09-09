@@ -107,6 +107,20 @@ export const NOTIFY_RULES = {
   skipClosedRaces: true,
 };
 
+/**
+ * 접수 마감 임박 리마인드.
+ *
+ * 실제로 대회를 놓치는 경로는 "몰라서"가 아니라
+ * "알림은 봤는데 나중에 하지 하다가 까먹어서"다.
+ * 그래서 접수 오픈 알림과 별개로, 마감 직전에 한 번 더 찌른다.
+ */
+export const REMIND = {
+  // 접수 마감 D-N 이내면 리마인드 대상
+  daysBefore: 3,
+  // 같은 대회를 며칠에 한 번까지 다시 알릴지 (매일 보내면 시끄럽다)
+  cooldownDays: 2,
+};
+
 export const PATHS = {
   state: 'data/state.json',
   log: 'data/run.log',

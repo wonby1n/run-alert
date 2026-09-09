@@ -2,7 +2,7 @@ import { SOURCES, FILTERS, HEALTH, NOTIFY_RULES } from './config.js';
 import { log } from './lib/logger.js';
 import { withRetry } from './lib/retry.js';
 import { closeBrowser } from './lib/browser.js';
-import { loadState, saveState, reconcile } from './lib/store.js';
+import { loadState, saveState, reconcile, pickReminders } from './lib/store.js';
 import { notifyEvents, notifyFailure } from './lib/notify.js';
 
 import * as marathongo from './sources/marathongo.js';
@@ -70,7 +70,12 @@ async function main() {
   const interesting = all.filter(matchesInterest);
   const state = loadState();
   const hadState = Object.keys(state.items).length > 0;
+  const isFirstRunGuard = !hadState;
   const { newRaces, opened } = reconcile(interesting, state);
+
+  // 리마인드는 이번에 수집된 것뿐 아니라 저장된 전체를 대상으로 한다.
+  // 대회가 목록에서 잠깐 안 보이더라도 마감은 다가오기 때문이다.
+  const reminders = isFirstRunGuard ? [] : pickReminders(state, today);
 
   // 어느 소스가 몇 건 들어와 몇 건 살아남았는지 — 필터를 튜닝하려면 이게 보여야 한다
   const countBy = (arr) => arr.reduce((a, i) => ((a[i.source] = (a[i.source] ?? 0) + 1), a), {});
@@ -82,6 +87,7 @@ async function main() {
     통과소스별: countBy(interesting),
     신규대회: newRaces.length,
     접수열림: opened.length,
+    마감임박: reminders.length,
     첫실행: !hadState,
     소요초: Math.round((Date.now() - started) / 1000),
   });
@@ -99,7 +105,12 @@ async function main() {
   if (DRY_RUN) {
     console.log(
       JSON.stringify(
-        { isFirstRun, 알림대상신규: newToNotify.slice(0, 20), 접수열림: opened },
+        {
+          isFirstRun,
+          마감임박: reminders,
+          접수열림: opened,
+          알림대상신규: newToNotify.slice(0, 20),
+        },
         null,
         2,
       ),
@@ -109,8 +120,8 @@ async function main() {
 
   if (isFirstRun) {
     log.info('초기 수집 — 상태만 저장하고 알림은 건너뜀', { saved: newRaces.length });
-  } else if (newToNotify.length || opened.length) {
-    await notifyEvents({ newRaces: newToNotify, opened });
+  } else if (newToNotify.length || opened.length || reminders.length) {
+    await notifyEvents({ newRaces: newToNotify, opened, reminders });
   }
   saveState(state);
 

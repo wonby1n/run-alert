@@ -9,6 +9,17 @@
 import { notifyEvents } from '../src/lib/notify.js';
 
 await notifyEvents({
+  reminders: [
+    {
+      title: '[테스트] 접수 마감 임박',
+      date: '2026-10-25',
+      region: '강원',
+      distances: ['풀', '10km'],
+      regClose: '2026.09.11',
+      dday: 2,
+      link: 'https://github.com/wonby1n/run-alert',
+    },
+  ],
   opened: [
     {
       title: '[테스트] 접수 열림 알림',

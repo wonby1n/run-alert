@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { PATHS, OPEN_STATUS } from '../config.js';
+import { PATHS, OPEN_STATUS, REMIND } from '../config.js';
 
 /**
  * 상태 파일 하나로 관리한다.
@@ -82,4 +82,49 @@ export function listItems() {
   return Object.values(state.items).sort((a, b) =>
     String(a.date || '9999').localeCompare(String(b.date || '9999')),
   );
+}
+
+/** "2026.09.30" 또는 "2026-09-30" → "2026-09-30" */
+export function toISODate(v) {
+  if (!v) return null;
+  const m = String(v).match(/(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})/);
+  if (!m) return null;
+  return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+}
+
+const daysBetween = (fromISO, toISO) =>
+  Math.round((Date.parse(toISO) - Date.parse(fromISO)) / 86400000);
+
+/**
+ * 접수 마감이 임박했는데 아직 신청 안 했을 법한 대회를 고른다.
+ *
+ * 조건
+ *   - 접수중이고
+ *   - 마감일이 오늘로부터 REMIND.daysBefore 이내 (이미 지난 마감은 제외)
+ *   - 대회일이 아직 안 지났고
+ *   - 최근 REMIND.cooldownDays 안에 리마인드한 적이 없다
+ *
+ * 고른 항목에는 remindedAt을 찍어 다음 실행에서 중복 발송되지 않게 한다.
+ */
+export function pickReminders(state, today) {
+  const out = [];
+
+  for (const [key, it] of Object.entries(state.items)) {
+    if (!isOpen(it.status)) continue;
+    if (it.date && it.date < today) continue;
+
+    const close = toISODate(it.regClose);
+    if (!close) continue;
+
+    const dday = daysBetween(today, close);
+    if (dday < 0 || dday > REMIND.daysBefore) continue;
+
+    if (it.remindedAt && daysBetween(it.remindedAt, today) < REMIND.cooldownDays) continue;
+
+    out.push({ ...it, dday });
+    state.items[key] = { ...it, remindedAt: today };
+  }
+
+  // 급한 것부터
+  return out.sort((a, b) => a.dday - b.dday);
 }
