@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/run.log
+data/probe-*.png
+playwright-report/
+test-results/

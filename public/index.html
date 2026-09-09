@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>run-alert</title>
+<style>
+  :root { --bg:#fff; --fg:#16181d; --muted:#6b7280; --line:#e5e7eb; --accent:#0f62fe; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f1115; --fg:#e8eaed; --muted:#9aa1ab; --line:#252a33; --accent:#6ea8ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif; }
+  header { padding:24px 20px 8px; }
+  h1 { margin:0; font-size:20px; letter-spacing:-.02em; }
+  .sub { color:var(--muted); font-size:13px; margin-top:4px; }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; padding:16px 20px; }
+  button, input { font:inherit; padding:7px 12px; border:1px solid var(--line); border-radius:8px; background:transparent; color:inherit; cursor:pointer; }
+  button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); }
+  ul { list-style:none; margin:0; padding:0 20px 40px; }
+  li { padding:12px 0; border-bottom:1px solid var(--line); }
+  .row { display:flex; gap:10px; align-items:baseline; }
+  .date { color:var(--accent); font-variant-numeric:tabular-nums; font-size:13px; min-width:86px; }
+  .title { flex:1; }
+  .meta { color:var(--muted); font-size:12px; margin-top:2px; }
+  a { color:inherit; }
+  .empty { padding:40px 20px; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>run-alert</h1>
+  <div class="sub">대회 일정과 러닝화 발매를 한 화면에서</div>
+</header>
+
+<div class="controls">
+  <button data-type="" aria-pressed="true">전체</button>
+  <button data-type="race" aria-pressed="false">대회</button>
+  <button data-type="drop" aria-pressed="false">발매</button>
+  <input id="q" placeholder="검색" />
+</div>
+
+<ul id="list" data-testid="item-list"></ul>
+<div class="empty" id="empty" hidden>표시할 항목이 없습니다.</div>
+
+<script>
+  let type = '';
+  const list = document.getElementById('list');
+  const empty = document.getElementById('empty');
+
+  async function load() {
+    const params = new URLSearchParams();
+    if (type) params.set('type', type);
+    const q = document.getElementById('q').value.trim();
+    if (q) params.set('q', q);
+
+    const res = await fetch('/api/items?' + params);
+    const { items } = await res.json();
+
+    list.innerHTML = items.map(function (it) {
+      return '<li data-testid="item">' +
+        '<div class="row">' +
+          '<span class="date">' + (it.date || '—') + '</span>' +
+          '<span class="title">' + (it.link
+            ? '<a href="' + it.link + '" target="_blank" rel="noopener">' + it.title + '</a>'
+            : it.title) + '</span>' +
+        '</div>' +
+        '<div class="meta">' + it.source +
+          (it.region ? ' · ' + it.region : '') +
+          (it.distances && it.distances.length ? ' · ' + it.distances.join('/') : '') +
+          (it.status ? ' · ' + it.status : '') +
+        '</div>' +
+      '</li>';
+    }).join('');
+
+    empty.hidden = items.length > 0;
+  }
+
+  document.querySelectorAll('button[data-type]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      type = b.dataset.type;
+      document.querySelectorAll('button[data-type]').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      load();
+    });
+  });
+  document.getElementById('q').addEventListener('input', function () {
+    clearTimeout(window._t); window._t = setTimeout(load, 250);
+  });
+
+  load();
+</script>
+</body>
+</html>
