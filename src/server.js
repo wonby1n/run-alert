@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { loadItems } from './lib/store.js';
+import { listItems } from './lib/store.js';
 import { PATHS } from './config.js';
 import { log } from './lib/logger.js';
 
@@ -12,10 +12,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-/** 수집된 전체 목록. type=race|drop, region, from/to로 필터. */
+/** 수집된 대회 목록. region, from/to, q 로 필터. */
 app.get('/api/items', (req, res) => {
   const { type, region, from, to, q } = req.query;
-  let items = loadItems();
+  let items = listItems();
 
   if (type) items = items.filter((i) => i.type === type);
   if (region) items = items.filter((i) => (i.region ?? '').includes(region) || i.title.includes(region));
@@ -33,7 +33,7 @@ app.get('/api/health', (req, res) => {
     const lines = fs.readFileSync(PATHS.log, 'utf8').trim().split('\n');
     lastLine = JSON.parse(lines[lines.length - 1]);
   } catch {}
-  res.json({ ok: true, items: loadItems().length, lastLog: lastLine });
+  res.json({ ok: true, items: listItems().length, lastLog: lastLine });
 });
 
 app.listen(PORT, () => log.info('server up', { port: PORT }));

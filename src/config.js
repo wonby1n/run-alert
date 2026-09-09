@@ -1,19 +1,20 @@
 /**
- * 수집 대상과 필터 조건을 한 곳에 모아둔다.
+ * 수집 대상과 필터 조건.
  *
- * 수집 대상을 고를 때 지킨 원칙 (README에 근거 기록):
- *  1. robots.txt에서 명시적으로 허용된 경로만 사용한다.
- *  2. API나 RSS가 제공되면 화면을 긁지 않고 그쪽을 쓴다.
- *  3. 개인·소규모 운영 사이트는 하루 1회, 요청 간 딜레이를 두고 접근한다.
+ * 이 프로젝트가 잡으려는 것은 두 가지다.
+ *   1) 새로 올라온 대회
+ *   2) 기존 대회의 접수가 열리는 순간   ← 선착순 마감 때문에 이게 더 중요하다
+ *
+ * 수집 대상을 고를 때 지킨 원칙 (근거는 note에 기록):
+ *   - robots.txt에서 허용된 경로만 사용한다.
+ *   - API나 RSS가 제공되면 화면을 긁지 않는다.
+ *   - 개인·소규모 운영 사이트는 하루 1회, 요청 간 딜레이를 두고 접근한다.
  */
 
 export const POLITENESS = {
-  // 연락 가능한 UA. 사이트 운영자가 로그를 보고 연락할 수 있어야 한다.
   userAgent:
     'RunAlertBot/0.1 (+https://github.com/wonby1n/run-alert; wonby1n@gmail.com)',
-  // 같은 사이트에 연속 요청할 때 최소 간격(ms)
   delayBetweenRequestsMs: 3000,
-  // 소스 하나당 최대 페이지 수 — 무한 페이지네이션 사고 방지
   maxPagesPerSource: 3,
 };
 
@@ -23,10 +24,6 @@ export const RETRY = {
   timeoutMs: 30000,
 };
 
-/**
- * 소스 정의.
- * enabled: false 로 두면 수집에서 제외된다. robots.txt 확인 결과를 note에 남긴다.
- */
 export const SOURCES = [
   {
     id: 'marathongo',
@@ -45,22 +42,31 @@ export const SOURCES = [
     note: 'robots.txt: Allow: / , Disallow: /api/ → 공개 페이지만 사용 (2026-09 확인)',
   },
   {
+    id: 'runneron',
+    kind: 'browser',
+    label: '러너온 마라톤 대회 캘린더',
+    url: 'https://www.runneron.com/Marathon',
+    enabled: true,
+    note: 'robots.txt: /Marathon 명시적 Allow. /api/ 와 /marathon/ics 는 Disallow → 건드리지 않음 (2026-09 확인)',
+  },
+
+  // --- 아래는 이 프로젝트의 목적(마라톤 일정)에 해당하지 않아 꺼둔다 ---
+  {
     id: 'snkrs',
     kind: 'browser',
     label: 'Nike SNKRS 발매 예정',
     url: 'https://www.nike.com/kr/launch/upcoming',
-    enabled: true,
-    note: 'robots.txt: /kr/launch 계열 허용 (2026-09 확인)',
+    enabled: false,
+    note: '보류: 러닝화 발매는 이번 범위가 아니다. robots.txt상 /kr/launch 는 허용됨',
   },
   {
     id: 'hypebeast',
     kind: 'rss',
     label: 'Hypebeast KR (신발 카테고리)',
     url: 'https://hypebeast.kr/feed',
-    enabled: true,
-    note: '공식 RSS. 화면을 긁지 않고 피드를 쓴다.',
+    enabled: false,
+    note: '보류: 위와 같은 이유. 공식 RSS라 필요해지면 바로 켜면 된다',
   },
-  // 확인 결과 제외한 대상 — 왜 뺐는지 코드에 남겨둔다.
   {
     id: 'musinsa',
     kind: 'browser',
@@ -71,32 +77,32 @@ export const SOURCES = [
   },
 ];
 
-/** 내 관심사 필터 */
+/** 관심사 필터. 배열이 비어 있으면 그 조건은 적용하지 않는다. */
 export const FILTERS = {
-  // 대회: 관심 지역 (빈 배열이면 전체)
-  regions: ['부산', '경남', '울산'],
-  // 대회: 관심 거리
-  distances: ['풀', '하프', '10km'],
-  // 발매: 관심 키워드
-  keywords: ['러닝', 'running', '페가수스', '보메로', '알파플라이', '베이퍼플라이'],
+  // 관심 지역 (대회명이나 지역 표기에 포함되면 통과)
+  regions: [],
+  // 관심 거리
+  distances: [],
+  // 제외하고 싶은 키워드 (예: '비대면', '온라인')
+  excludeKeywords: [],
 };
 
+/** '접수중'으로 볼 상태 표기 */
+export const OPEN_STATUS = /접수\s*중|접수중|신청\s*중|접수\s*진행/;
+
 export const NOTIFY = {
-  // Discord Incoming Webhook URL. 미설정이면 콘솔에만 출력한다.
   webhookUrl: process.env.WEBHOOK_URL || '',
-  // 실패 알림도 같은 채널로 보낸다. 조용히 죽는 게 제일 나쁘다.
   notifyOnFailure: true,
 };
 
 export const PATHS = {
-  seen: 'data/seen.json',
-  items: 'data/items.json',
+  state: 'data/state.json',
   log: 'data/run.log',
 };
 
 /**
- * 셀렉터 드리프트 감지 임계값.
- * 사이트가 개편되면 셀렉터가 안 먹으면서도 에러는 안 난다.
+ * 셀렉터 드리프트 감지.
+ * 사이트가 개편되면 셀렉터가 안 먹으면서도 예외는 안 난다.
  * "에러 없이 0건"은 성공이 아니라 이상 신호로 취급한다.
  */
 export const HEALTH = {

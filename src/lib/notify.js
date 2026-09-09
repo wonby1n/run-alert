@@ -3,7 +3,8 @@ import { log } from './logger.js';
 
 async function post(payload) {
   if (!NOTIFY.webhookUrl) {
-    log.warn('WEBHOOK_URL 미설정 — 콘솔로만 출력', { preview: payload.content?.slice(0, 200) });
+    log.warn('WEBHOOK_URL 미설정 — 콘솔로만 출력');
+    console.log(payload.content);
     return;
   }
   const res = await fetch(NOTIFY.webhookUrl, {
@@ -14,26 +15,37 @@ async function post(payload) {
   if (!res.ok) throw new Error(`webhook ${res.status} ${await res.text()}`);
 }
 
-export async function notifyNewItems(items) {
-  if (!items.length) return;
-  const races = items.filter((i) => i.type === 'race');
-  const drops = items.filter((i) => i.type === 'drop');
+const line = (r) =>
+  `• ${r.date ?? '날짜미정'} ${r.title}` +
+  `${r.region ? ` (${r.region})` : ''}` +
+  `${r.distances?.length ? ` — ${r.distances.join('/')}` : ''}` +
+  `${r.link ? `\n  ${r.link}` : ''}`;
 
-  const lines = ['**🏃 새로 올라온 소식**'];
-  if (races.length) {
-    lines.push('', '__대회__');
-    for (const r of races.slice(0, 15)) {
-      lines.push(`• ${r.date ?? '날짜미정'} ${r.title}${r.region ? ` (${r.region})` : ''}` +
-        `${r.distances?.length ? ` — ${r.distances.join('/')}` : ''}` +
-        `${r.status ? ` [${r.status}]` : ''}\n  ${r.link ?? ''}`);
+/**
+ * 접수 오픈을 신규 대회보다 먼저 보여준다.
+ * 선착순 마감 때문에 사용자가 당장 움직여야 하는 건 이쪽이다.
+ */
+export async function notifyEvents({ newRaces = [], opened = [] }) {
+  if (!newRaces.length && !opened.length) return;
+
+  const lines = [];
+
+  if (opened.length) {
+    lines.push('**🔔 접수 열림**');
+    for (const r of opened.slice(0, 15)) lines.push(line(r));
+    lines.push('');
+  }
+
+  if (newRaces.length) {
+    lines.push('**🏃 새로 올라온 대회**');
+    for (const r of newRaces.slice(0, 15)) {
+      lines.push(line(r) + (r.status ? ` [${r.status}]` : ''));
     }
   }
-  if (drops.length) {
-    lines.push('', '__발매__');
-    for (const d of drops.slice(0, 15)) {
-      lines.push(`• ${d.date ?? ''} ${d.title}\n  ${d.link ?? ''}`);
-    }
-  }
+
+  const total = newRaces.length + opened.length;
+  if (total > 30) lines.push('', `…외 ${total - 30}건`);
+
   await post({ content: lines.join('\n').slice(0, 1900) });
 }
 

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "collect": "node src/collect.js",
-    "collect:dry": "DRY_RUN=1 node src/collect.js",
+    "collect:dry": "node src/collect.js --dry",
     "probe": "node tools/probe.mjs",
     "server": "node src/server.js",
     "test:e2e": "playwright test"

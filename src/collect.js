@@ -2,33 +2,36 @@ import { SOURCES, FILTERS, HEALTH } from './config.js';
 import { log } from './lib/logger.js';
 import { withRetry } from './lib/retry.js';
 import { closeBrowser } from './lib/browser.js';
-import { loadSeen, saveSeen, diffNew, saveItems, itemKey } from './lib/store.js';
-import { notifyNewItems, notifyFailure } from './lib/notify.js';
+import { loadState, saveState, reconcile } from './lib/store.js';
+import { notifyEvents, notifyFailure } from './lib/notify.js';
 
 import * as marathongo from './sources/marathongo.js';
 import * as rankingmarathon from './sources/rankingmarathon.js';
+import * as runneron from './sources/runneron.js';
 import * as snkrs from './sources/snkrs.js';
 import * as hypebeast from './sources/hypebeast.js';
 
-const COLLECTORS = { marathongo, rankingmarathon, snkrs, hypebeast };
+const COLLECTORS = { marathongo, rankingmarathon, runneron, snkrs, hypebeast };
 
-/** 관심사 필터. 조건이 비어 있으면 통과시킨다. */
+// 윈도우에서 npm 스크립트는 cmd로 실행돼 `VAR=1 node ...` 문법이 안 먹는다.
+// OS를 타지 않도록 플래그를 우선으로 하고 환경변수도 함께 받는다.
+const DRY_RUN = process.argv.includes('--dry') || !!process.env.DRY_RUN;
+
+/** 관심사 필터. 조건이 비어 있으면 그 항목은 적용하지 않는다. */
 function matchesInterest(item) {
-  if (item.type === 'race') {
-    const regionOk =
-      !FILTERS.regions.length ||
-      !item.region ||
-      FILTERS.regions.some((r) => (item.title + ' ' + item.region).includes(r));
-    const distOk =
-      !FILTERS.distances.length ||
-      !item.distances?.length ||
-      item.distances.some((d) => FILTERS.distances.some((f) => d.includes(f)));
-    return regionOk && distOk;
+  const hay = `${item.title} ${item.region ?? ''}`;
+
+  if (FILTERS.excludeKeywords.length && FILTERS.excludeKeywords.some((k) => hay.includes(k))) {
+    return false;
   }
-  if (item.type === 'drop') {
-    if (!FILTERS.keywords.length) return true;
-    const hay = `${item.title} ${item.raw ?? ''}`.toLowerCase();
-    return FILTERS.keywords.some((k) => hay.includes(k.toLowerCase()));
+  if (FILTERS.regions.length && !FILTERS.regions.some((r) => hay.includes(r))) {
+    return false;
+  }
+  if (FILTERS.distances.length) {
+    // 거리를 못 읽은 항목은 버리지 않는다 — 놓치는 것보다 한 번 더 보는 게 낫다
+    if (item.distances?.length && !item.distances.some((d) => FILTERS.distances.some((f) => d.includes(f)))) {
+      return false;
+    }
   }
   return true;
 }
@@ -48,7 +51,6 @@ async function main() {
       const items = await withRetry(source.id, () => mod.collect(source));
       log.info('수집 완료', { source: source.id, count: items.length });
 
-      // 에러 없이 0건 = 셀렉터가 깨졌을 가능성. 성공으로 치지 않는다.
       if (items.length < HEALTH.minItemsPerSource) {
         problems.push({
           source: source.id,
@@ -65,28 +67,31 @@ async function main() {
   await closeBrowser();
 
   const interesting = all.filter(matchesInterest);
-  const seen = loadSeen();
-  const fresh = diffNew(interesting, seen);
+  const state = loadState();
+  const { newRaces, opened } = reconcile(interesting, state);
+
+  // 어느 소스가 몇 건 들어와 몇 건 살아남았는지 — 필터를 튜닝하려면 이게 보여야 한다
+  const countBy = (arr) => arr.reduce((a, i) => ((a[i.source] = (a[i.source] ?? 0) + 1), a), {});
 
   log.info('집계', {
     수집: all.length,
+    소스별: countBy(all),
     관심사통과: interesting.length,
-    신규: fresh.length,
+    통과소스별: countBy(interesting),
+    신규대회: newRaces.length,
+    접수열림: opened.length,
     소요초: Math.round((Date.now() - started) / 1000),
   });
 
-  saveItems(interesting);
-
-  if (process.env.DRY_RUN) {
-    console.log(JSON.stringify(fresh.slice(0, 20), null, 2));
+  if (DRY_RUN) {
+    console.log(JSON.stringify({ newRaces: newRaces.slice(0, 20), opened }, null, 2));
     return;
   }
 
-  if (fresh.length) {
-    await notifyNewItems(fresh);
-    for (const it of fresh) seen.add(itemKey(it));
-    saveSeen(seen);
+  if (newRaces.length || opened.length) {
+    await notifyEvents({ newRaces, opened });
   }
+  saveState(state);
 
   if (problems.length) {
     await notifyFailure(problems);
