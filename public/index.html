@@ -69,6 +69,7 @@
           (it.region ? ' · ' + it.region : '') +
           (it.distances && it.distances.length ? ' · ' + it.distances.join('/') : '') +
           (it.status ? ' · ' + it.status : '') +
+          (it.regClose ? ' · 접수 ~' + it.regClose : '') +
         '</div>' +
       '</li>';
     }).join('');

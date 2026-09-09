@@ -19,6 +19,7 @@ const line = (r) =>
   `• ${r.date ?? '날짜미정'} ${r.title}` +
   `${r.region ? ` (${r.region})` : ''}` +
   `${r.distances?.length ? ` — ${r.distances.join('/')}` : ''}` +
+  `${r.regClose ? ` · 접수마감 ${r.regClose}` : ''}` +
   `${r.link ? `\n  ${r.link}` : ''}`;
 
 /**
