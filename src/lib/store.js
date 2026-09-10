@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { PATHS, OPEN_STATUS, REMIND } from '../config.js';
+import { PATHS, OPEN_STATUS, REMIND, PRUNE } from '../config.js';
 
 /**
  * 상태 파일 하나로 관리한다.
@@ -132,4 +132,28 @@ export function pickReminders(state, today) {
 
   // 급한 것부터
   return out.sort((a, b) => a.dday - b.dday);
+}
+
+/**
+ * 지난 대회를 상태에서 정리한다.
+ *
+ * 대회일이 지나면 알림 로직도 더 이상 그 항목을 보지 않는다 —
+ * 신규 판정도 리마인드도 date >= today를 요구한다. 그런데도 계속
+ * 들고 있으면 하는 일 없이 data/state.json만 매일 커진다.
+ *
+ * 대회일로부터 PRUNE.afterDays 지나면 지운다. 날짜를 못 읽은 항목은
+ * 스스로 판단할 근거가 없으니 건드리지 않는다.
+ *
+ * @returns 지워진 건수
+ */
+export function pruneOldItems(state, today) {
+  let removed = 0;
+  for (const [key, it] of Object.entries(state.items)) {
+    if (!it.date) continue;
+    if (daysBetween(it.date, today) > PRUNE.afterDays) {
+      delete state.items[key];
+      removed++;
+    }
+  }
+  return removed;
 }

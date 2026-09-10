@@ -2,7 +2,7 @@ import { SOURCES, FILTERS, HEALTH, NOTIFY_RULES } from './config.js';
 import { log } from './lib/logger.js';
 import { withRetry } from './lib/retry.js';
 import { closeBrowser } from './lib/browser.js';
-import { loadState, saveState, reconcile, pickReminders, isOpen } from './lib/store.js';
+import { loadState, saveState, reconcile, pickReminders, pruneOldItems, isOpen } from './lib/store.js';
 import { notifyEvents, notifyFailure } from './lib/notify.js';
 
 import * as marathongo from './sources/marathongo.js';
@@ -124,6 +124,10 @@ async function main() {
     const openCount = Object.values(state.items).filter((i) => isOpen(i.status)).length;
     await notifyEvents({ newRaces: newToNotify, opened, reminders, openCount });
   }
+  // 지난 대회 정리 — 안 하면 상태 파일이 매일 커지기만 한다
+  const pruned = pruneOldItems(state, today);
+  if (pruned) log.info('지난 대회 정리', { pruned });
+
   saveState(state);
 
   if (problems.length) {

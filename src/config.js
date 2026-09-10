@@ -126,6 +126,16 @@ export const REMIND = {
   cooldownDays: 2,
 };
 
+/**
+ * 상태 파일 정리.
+ * 대회일이 지나면 알림 로직도 더 이상 보지 않는 정보다. 그런데도 계속
+ * 쌓아두면 data/state.json이 무한정 커진다 — 정리 없이는 1년에 수천 건.
+ * 대회일 기준 이만큼 지나면 지운다. 당일 결과 확인 등에 약간 여유를 둔다.
+ */
+export const PRUNE = {
+  afterDays: 30,
+};
+
 export const PATHS = {
   state: 'data/state.json',
   log: 'data/run.log',
