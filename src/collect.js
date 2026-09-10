@@ -2,7 +2,7 @@ import { SOURCES, FILTERS, HEALTH, NOTIFY_RULES } from './config.js';
 import { log } from './lib/logger.js';
 import { withRetry } from './lib/retry.js';
 import { closeBrowser } from './lib/browser.js';
-import { loadState, saveState, reconcile, pickReminders } from './lib/store.js';
+import { loadState, saveState, reconcile, pickReminders, isOpen } from './lib/store.js';
 import { notifyEvents, notifyFailure } from './lib/notify.js';
 
 import * as marathongo from './sources/marathongo.js';
@@ -121,7 +121,8 @@ async function main() {
   if (isFirstRun) {
     log.info('초기 수집 — 상태만 저장하고 알림은 건너뜀', { saved: newRaces.length });
   } else if (newToNotify.length || opened.length || reminders.length) {
-    await notifyEvents({ newRaces: newToNotify, opened, reminders });
+    const openCount = Object.values(state.items).filter((i) => isOpen(i.status)).length;
+    await notifyEvents({ newRaces: newToNotify, opened, reminders, openCount });
   }
   saveState(state);
 

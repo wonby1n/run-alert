@@ -30,8 +30,13 @@ const line = (r) =>
  *
  * 셋 다 없으면 아무것도 보내지 않는다. 매일 "새 소식 없음"이 오면
  * 사람이 알림을 무시하기 시작하고, 그러면 정작 중요한 날에도 안 본다.
+ *
+ * @param {number} [openCount] 현재 접수중인 전체 대회 수. 알림 하단에
+ *   "접수중 N건 — 전체 목록은 화면에서" 형태로 붙는다. 매일 접수중 목록을
+ *   전부 나열하면 그 자체가 소음이 되므로, 이미 보낼 알림이 있는 날에만
+ *   한 줄로 존재를 알리고 상세는 화면(SITE_URL)으로 넘긴다.
  */
-export async function notifyEvents({ newRaces = [], opened = [], reminders = [] }) {
+export async function notifyEvents({ newRaces = [], opened = [], reminders = [], openCount = 0 }) {
   if (!newRaces.length && !opened.length && !reminders.length) return;
 
   const lines = [];
@@ -60,6 +65,11 @@ export async function notifyEvents({ newRaces = [], opened = [], reminders = [] 
 
   const total = reminders.length + newRaces.length + opened.length;
   if (total > 35) lines.push('', `…외 ${total - 35}건`);
+
+  if (openCount > 0) {
+    const where = NOTIFY.siteUrl || '(SITE_URL 미설정 — npm run server 로 로컬에서 확인)';
+    lines.push('', `📋 현재 접수중인 대회 ${openCount}건 — 전체 목록: ${where}`);
+  }
 
   await post({ content: lines.join('\n').slice(0, 1900) });
 }

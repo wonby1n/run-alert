@@ -95,6 +95,9 @@ export const OPEN_STATUS = /접수\s*중|접수중|신청\s*중|접수\s*진행/
 export const NOTIFY = {
   webhookUrl: process.env.WEBHOOK_URL || '',
   notifyOnFailure: true,
+  // 알림 하단에 "전체 목록 보기" 링크로 붙일 웹 화면 주소.
+  // 비워두면 링크 대신 로컬 확인 방법을 안내한다.
+  siteUrl: process.env.SITE_URL || '',
 };
 
 /**
