@@ -119,7 +119,12 @@ export function pickReminders(state, today) {
     const dday = daysBetween(today, close);
     if (dday < 0 || dday > REMIND.daysBefore) continue;
 
-    if (it.remindedAt && daysBetween(it.remindedAt, today) < REMIND.cooldownDays) continue;
+    // 마감 당일(D-0)은 "마지막 기회"이므로 쿨다운과 무관하게 반드시 보낸다.
+    // 쿨다운만 적용하면 D-1에 리마인드가 나간 대회는 D-0에 막히고, 그다음은
+    // dday < 0 이라 영영 못 보내는 구멍이 생긴다.
+    if (dday > 0 && it.remindedAt && daysBetween(it.remindedAt, today) < REMIND.cooldownDays) {
+      continue;
+    }
 
     out.push({ ...it, dday });
     state.items[key] = { ...it, remindedAt: today };
