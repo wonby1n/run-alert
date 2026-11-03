@@ -18,183 +18,6 @@
       "lastSeen": "2026-10-29",
       "remindedAt": "2026-10-30"
     },
-    "8212bcbe2c46": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "SMTOWN RUN CLUB 26",
-      "date": "2026-10-03",
-      "region": "인천",
-      "distances": [
-        "10km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.08.06",
-      "regClose": "2026.09.30",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-smtown-run-club",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02",
-      "remindedAt": "2026-09-29"
-    },
-    "a3cf19304271": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 춘천연합마라톤",
-      "date": "2026-10-03",
-      "region": "강원",
-      "distances": [
-        "하프",
-        "10km",
-        "5km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.07.16",
-      "regClose": "2026.08.31",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-chuncheon-united-marathon",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "92d12684487f": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 JUST RUN10 청주 (하반기)",
-      "date": "2026-10-03",
-      "region": "충북",
-      "distances": [
-        "10km",
-        "5km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.07.14",
-      "regClose": "2026.08.14",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-just-run10-cheongju-pb-easy-official-second",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "6f56c2499a6a": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 마스터즈 마라톤",
-      "date": "2026-10-03",
-      "region": "서울",
-      "distances": [
-        "하프",
-        "10km",
-        "5km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.07.07",
-      "regClose": "2026.09.21",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-masters-half-marathon",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02",
-      "remindedAt": "2026-09-20"
-    },
-    "0ad3ffd9adbc": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 완주트레일런",
-      "date": "2026-10-03",
-      "region": "전북",
-      "distances": [
-        "36K"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.06.19",
-      "regClose": "2026.08.31",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-wanju-trailrun",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "cba33ceed0bb": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 천사데이기념 동두천천사마라톤",
-      "date": "2026-10-03",
-      "region": "경기",
-      "distances": [
-        "10km",
-        "5km",
-        "2Km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.06.04",
-      "regClose": "2026.09.30",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-cheonsaday-dongducheon-angel-marathon",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02",
-      "remindedAt": "2026-09-29"
-    },
-    "9859d60d9a72": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "제25회 김제새만금 지평선 전국마라톤",
-      "date": "2026-10-03",
-      "region": "전북",
-      "distances": [
-        "하프",
-        "10km",
-        "5km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.05.20",
-      "regClose": "2026.06.20",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/25th-kimje-saemangeum-horizon-national-marathon-2026",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "521317a4ffe8": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 글로벌 포 워터 부산",
-      "date": "2026-10-03",
-      "region": "부산",
-      "distances": [
-        "6km",
-        "10km",
-        "6K"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.04.13",
-      "regClose": "2026.04.30",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-global-6k-for-water-busan",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "a0a543dfbbb0": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 서산 코스모스 황금들녘 마라톤 대회",
-      "date": "2026-10-03",
-      "region": "충남",
-      "distances": [
-        "하프",
-        "10km",
-        "5km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.03.20",
-      "regClose": "2026.09.03",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-seosan-cosmos-golden-fields-marathon",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02"
-    },
-    "3fb4017201b0": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "제2회 아산이순신 트레일",
-      "date": "2026-10-03",
-      "region": "충남",
-      "distances": [
-        "60km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.02.01",
-      "regClose": "2026.09.20",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2nd-asan-yi-sun-shin-trail-2026",
-      "firstSeen": "2026-09-09",
-      "lastSeen": "2026-10-02",
-      "remindedAt": "2026-09-19"
-    },
     "482abccf60cc": {
       "type": "race",
       "source": "marathongo",
@@ -1984,7 +1807,7 @@
       "regClose": "2026.10.13",
       "link": "https://marathongo.co.kr/raceDetail/domestic/ready-set-gongik-run-2026-11-07",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-02"
     },
     "5dd070652536": {
@@ -2001,7 +1824,8 @@
       "regClose": "2026.11.06",
       "link": "https://marathongo.co.kr/raceDetail/domestic/namhansanseong-trail-2026-11-07",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03",
+      "remindedAt": "2026-11-03"
     },
     "cff7df6980f2": {
       "type": "race",
@@ -2018,7 +1842,7 @@
       "regClose": "2026.09.23",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-purmerun-miracle365-nexon",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-09-23"
     },
     "333cccc9e71d": {
@@ -2035,7 +1859,7 @@
       "regClose": "2026.10.25",
       "link": "https://marathongo.co.kr/raceDetail/domestic/save-race-2026-10km-join-save-earth",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-24"
     },
     "4e8be3364be3": {
@@ -2053,7 +1877,7 @@
       "regClose": "2026.10.09",
       "link": "https://marathongo.co.kr/raceDetail/domestic/gvie-run-2026-gumi-20261107",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-09"
     },
     "cc19480a3ac5": {
@@ -2072,7 +1896,7 @@
       "regClose": "2026.08.12",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-mungyeong-legend-trail-baekdudaegan",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "3e372bc4350a": {
       "type": "race",
@@ -2089,7 +1913,7 @@
       "regClose": "2026.10.09",
       "link": "https://marathongo.co.kr/raceDetail/domestic/19th-jinhae-navy-marathon-2026-11-07",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-09"
     },
     "4651e4682db0": {
@@ -2106,7 +1930,7 @@
       "regClose": "2026.10.16",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-busan-maritime-run-festa",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-16"
     },
     "96d2bf54beae": {
@@ -2126,7 +1950,7 @@
       "regClose": "2026.10.07",
       "link": "https://marathongo.co.kr/raceDetail/domestic/15th-buyeo-goodtre-marathon-2026",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-07"
     },
     "5cc953788508": {
@@ -2145,7 +1969,7 @@
       "regClose": "2026.09.30",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-yeongcheon-dam-marathon",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-09-30"
     },
     "6daabe66a2ed": {
@@ -2163,7 +1987,7 @@
       "regClose": "2026.09.30",
       "link": "https://marathongo.co.kr/raceDetail/domestic/olympic-day-run-2026-in-seoul",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-09-30"
     },
     "d6de0a2b04e9": {
@@ -2182,7 +2006,7 @@
       "regClose": "2026.10.18",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-gyeonggi-hwaseong-ecorun",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-18"
     },
     "783bc3fe3a1e": {
@@ -2201,7 +2025,7 @@
       "regClose": "2026.10.08",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-gyeongbuk-newcity-marathon",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-08"
     },
     "1f1b9c54f035": {
@@ -2220,7 +2044,7 @@
       "regClose": "2026.10.25",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-cheongyang-gun-chilgab-marathon",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "307b51f86635": {
       "type": "race",
@@ -2238,7 +2062,7 @@
       "regClose": "2026.10.10",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2th-wanju-mankyunggang-marathon-2026",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-10-10"
     },
     "a1a2eb71568c": {
@@ -2257,7 +2081,7 @@
       "regClose": "2026.09.10",
       "link": "https://marathongo.co.kr/raceDetail/domestic/24th-naju-geumseongsan-forest-marathon-2026",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-09-10"
     },
     "6434f0cc5068": {
@@ -3375,7 +3199,8 @@
       "regClose": "2026.11.06",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-boys-girls-head-donation-run",
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-09"
+      "lastSeen": "2026-09-09",
+      "remindedAt": "2026-11-03"
     },
     "e8420c478250": {
       "type": "race",
@@ -3503,23 +3328,6 @@
       "link": "https://marathongo.co.kr/raceDetail/domestic/9th-oceanview-gijang-sea-marathon-2027",
       "firstSeen": "2026-09-09",
       "lastSeen": "2026-09-09"
-    },
-    "61b40fddd521": {
-      "type": "race",
-      "source": "marathongo",
-      "title": "2026 이일선기념 마라톤",
-      "date": "2026-10-03",
-      "region": "경북",
-      "distances": [
-        "10km",
-        "4.4km"
-      ],
-      "status": "접수마감",
-      "regOpen": "2026.07.14",
-      "regClose": "2026.08.18",
-      "link": "https://marathongo.co.kr/raceDetail/domestic/2026-ileelseon-marathon",
-      "firstSeen": "2026-09-13",
-      "lastSeen": "2026-10-02"
     },
     "0259375f3060": {
       "type": "race",
@@ -3875,8 +3683,8 @@
       "regClose": "2026.11.04",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-virtual-hanglerun",
       "firstSeen": "2026-10-24",
-      "lastSeen": "2026-11-02",
-      "remindedAt": "2026-11-01"
+      "lastSeen": "2026-11-03",
+      "remindedAt": "2026-11-03"
     },
     "23408a4439f4": {
       "type": "race",
@@ -3892,7 +3700,7 @@
       "regClose": "2026.11.05",
       "link": "https://marathongo.co.kr/raceDetail/domestic/40th-seobong-short-marathon-2026-11-06",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02",
+      "lastSeen": "2026-11-03",
       "remindedAt": "2026-11-02"
     },
     "af0cfdec50b3": {
@@ -3910,7 +3718,7 @@
       "regClose": "2026.10.25",
       "link": "https://marathongo.co.kr/raceDetail/domestic/3nd-recovery-marathon-2026",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "6f929dacf72c": {
       "type": "race",
@@ -3927,7 +3735,7 @@
       "regClose": "2026.10.20",
       "link": "https://marathongo.co.kr/raceDetail/domestic/21st-damyang-metasequoia-marathon-2026",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "5e2f1118196c": {
       "type": "race",
@@ -3941,7 +3749,7 @@
       "regClose": "2026.10.09",
       "link": "https://marathongo.co.kr/raceDetail/domestic/peace-island-2026-prime-minister-international-marathon",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "a40e359255a1": {
       "type": "race",
@@ -3957,7 +3765,7 @@
       "regClose": "2026.10.16",
       "link": "https://marathongo.co.kr/raceDetail/domestic/26-ten-bridges-night-walk-2026-11-07",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "603a1063da4a": {
       "type": "race",
@@ -3973,7 +3781,7 @@
       "regClose": "2026.10.07",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-egg-run-goodneighbors",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "515edf28304c": {
       "type": "race",
@@ -3990,7 +3798,7 @@
       "regClose": "2026.09.23",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-yeosu-eleven-bridge-marathon",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "ce916d83cf62": {
       "type": "race",
@@ -4007,7 +3815,7 @@
       "regClose": "2026.10.10",
       "link": "https://marathongo.co.kr/raceDetail/domestic/runten-13th-just-run10-daejeon-2026",
       "firstSeen": "2026-10-27",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "74e0a54b8cef": {
       "type": "race",
@@ -4023,7 +3831,7 @@
       "regClose": "2026.10.31",
       "link": "https://marathongo.co.kr/raceDetail/domestic/83tower-uphill-run-challenge-2026",
       "firstSeen": "2026-10-31",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "b1f6e4eac61f": {
       "type": "race",
@@ -4041,7 +3849,7 @@
       "regClose": "2026.10.24",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-ansan-run-marathon",
       "firstSeen": "2026-10-31",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "d77ff39e3391": {
       "type": "race",
@@ -4058,7 +3866,7 @@
       "regClose": "2026.10.10",
       "link": "https://marathongo.co.kr/raceDetail/domestic/2026-anseong-nationwide-marathon",
       "firstSeen": "2026-10-31",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "d3c7d12dd73e": {
       "type": "race",
@@ -4075,7 +3883,7 @@
       "regClose": "2026.09.30",
       "link": "https://marathongo.co.kr/raceDetail/domestic/3rd-freedom-democracy-marathon-2026",
       "firstSeen": "2026-11-01",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     },
     "58417b51980f": {
       "type": "race",
@@ -4092,7 +3900,7 @@
       "regClose": "2026.10.23",
       "link": "https://marathongo.co.kr/raceDetail/domestic/gangnam-half-marathon-2026",
       "firstSeen": "2026-11-01",
-      "lastSeen": "2026-11-02"
+      "lastSeen": "2026-11-03"
     }
   }
 }
